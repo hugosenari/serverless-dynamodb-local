@@ -2,7 +2,7 @@ name: Build, test and Publish
 on:
   push:
     branches:
-    - master
+    - v1.1
 
 jobs:
   build:      
@@ -20,4 +20,4 @@ jobs:
           yarn publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
-        HAL_TOKEN: ${{ secrets.HAL_TOKEN }}   
+ 
