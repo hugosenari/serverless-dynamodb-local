@@ -43,8 +43,7 @@ class ServerlessDynamodbLocal {
                                 shortcut: "p",
                                 usage: "The port number that DynamoDB will use to communicate with your application. If you do not specify this option, the default port is 8000"
                             },
-                            host: {
-                               
+                            host: {                               
                                 usage: "The host that DynamoDB will use to communicate with your application. If you do not specify this option, the default is localhost"
                             },                            
                             cors: {
