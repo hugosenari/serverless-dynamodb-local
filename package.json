@@ -11,6 +11,9 @@
         "type": "git",
         "url": "https://github.com/99xt/serverless-dynamodb-local"
     },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+      },
     "keywords": [
         "serverless framework plugin",
         "serverless applications",
