@@ -18,4 +18,4 @@ jobs:
           yarn publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
- 
+        GITHUB_REGISTRY_TOKEN:  ${{ secrets.GH_TOKEN }}
