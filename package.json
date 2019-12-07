@@ -1,5 +1,5 @@
 {
-    "name": "@monosolutions/serverless-dynamodb-local",
+    "name": "@hugosenari/serverless-dynamodb-local",
     "version": "0.2.37",
     "engines": {
         "node": ">=4.0"
@@ -9,11 +9,11 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/monosolutions/serverless-dynamodb-local"
+        "url": "https://github.com/hugosenari/serverless-dynamodb-local"
     },
     "publishConfig": {
         "registry": "https://npm.pkg.github.com"
-      },
+    },
     "keywords": [
         "serverless framework plugin",
         "serverless applications",
@@ -37,12 +37,12 @@
     "dependencies": {
         "aws-sdk": "^2.7.0",
         "bluebird": "^3.4.6",
-        "dynamodb-localhost": "^0.0.7",
+        "dynamodb-localhost": "0.0.9",
         "lodash": "^4.17.0"
     },
     "devDependencies": {
         "chai": "^4.1.1",
-        "mocha": "^3.5.0",
+        "mocha": "^6.2.2",
         "should": "^11.2.1"
     }
 }
