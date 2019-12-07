@@ -33,10 +33,13 @@ jobs:
       - uses: actions/checkout@master
       - run: git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
       - run: git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-      - run: git config --global push.default current
       - run: git checkout sweeded
-      - run: git branch --set-upstream-to origin/sweeded sweeded
       - run: npm install .
-      - run: npm run release -- minor -V --ci
+      - run: npm run release -- minor -V --ci --no-git.push
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          branch: sweeded
       - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
       - run: npm publish
