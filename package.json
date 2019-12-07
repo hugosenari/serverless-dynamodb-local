@@ -1,48 +1,50 @@
 {
-    "name": "@hugosenari/serverless-dynamodb-local",
-    "version": "0.2.37",
-    "engines": {
-        "node": ">=4.0"
-    },
-    "description": "Serverless dynamodb local plugin",
-    "author": "99xtechnology.com",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/hugosenari/serverless-dynamodb-local"
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
-    },
-    "keywords": [
-        "serverless framework plugin",
-        "serverless applications",
-        "serverless plugins",
-        "api gateway",
-        "lambda",
-        "dynamodb",
-        "dynamodb local",
-        "aws",
-        "aws lambda",
-        "aws dynamodb",
-        "amazon",
-        "amazon web services",
-        "serverless.com"
-    ],
-    "main": "index.js",
-    "bin": {},
-    "scripts": {
-        "test": "mocha ./test"
-    },
-    "dependencies": {
-        "aws-sdk": "^2.7.0",
-        "bluebird": "^3.4.6",
-        "dynamodb-localhost": "0.0.9",
-        "lodash": "^4.17.0"
-    },
-    "devDependencies": {
-        "chai": "^4.1.1",
-        "mocha": "^6.2.2",
-        "should": "^11.2.1"
-    }
+  "name": "@hugosenari/serverless-dynamodb-local",
+  "version": "1.1.0",
+  "engines": {
+    "node": ">=4.0"
+  },
+  "description": "Serverless dynamodb local plugin",
+  "author": "99xtechnology.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hugosenari/serverless-dynamodb-local"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "serverless framework plugin",
+    "serverless applications",
+    "serverless plugins",
+    "api gateway",
+    "lambda",
+    "dynamodb",
+    "dynamodb local",
+    "aws",
+    "aws lambda",
+    "aws dynamodb",
+    "amazon",
+    "amazon web services",
+    "serverless.com"
+  ],
+  "main": "index.js",
+  "bin": {},
+  "scripts": {
+    "test": "mocha ./test",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.7.0",
+    "bluebird": "^3.4.6",
+    "dynamodb-localhost": "0.0.9",
+    "lodash": "^4.17.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "mocha": "^6.2.2",
+    "release-it": "^12.4.3",
+    "should": "^11.2.1"
+  }
 }

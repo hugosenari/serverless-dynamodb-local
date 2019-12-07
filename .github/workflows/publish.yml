@@ -30,4 +30,5 @@ jobs:
           scope: '@hugosenari'
       - run: npm ci
       - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - run: npm publish
+      - run: npm run release -- minor --ci
+      # - run: npm publish
