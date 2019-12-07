@@ -33,7 +33,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: sweeded
       - run: npm ci
-      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
       - run: cat ./.npmrc
       - run: npm run release -- minor --ci --no-git.requireCleanWorkingDir
       # - run: npm publish
