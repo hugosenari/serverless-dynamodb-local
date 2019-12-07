@@ -1,0 +1,11 @@
+{
+  "npm": {
+    "publish": false
+  },
+  "git":{
+    "pushRepo": "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$INPUT_REPO.git"
+  },
+  "github": {
+    "release": true
+  }
+}
