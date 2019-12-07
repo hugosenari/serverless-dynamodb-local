@@ -2,3 +2,6 @@ node_modules
 .circleci
 .github
 .yarn.lock
+.travis.yml
+.jshintrc
+test
