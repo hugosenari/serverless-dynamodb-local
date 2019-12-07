@@ -28,9 +28,10 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@hugosenari'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm ci
       - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - run: git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-      - run: git branch -u origin/sweeded
       - run: npm run release -- minor --ci --no-git.requireCleanWorkingDir
       # - run: npm publish
