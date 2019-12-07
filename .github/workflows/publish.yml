@@ -34,9 +34,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: sweeded
       - run: npm ci
-      - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - run: git config --local user.email "action@github.com"
-      - run: git config --local user.name "GitHub Action"
-      - run: git config --global hub.protocol https
+      - run: git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+      - run: git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
       - run: npm run release -- minor --ci --no-git.requireUpstream --no-git.requireCleanWorkingDir
+      - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
       - run: npm publish
