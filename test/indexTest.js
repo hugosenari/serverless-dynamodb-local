@@ -10,18 +10,56 @@ const Plugin = require('../index.js');
 
 const serverlessMock = require('./serverlessMock');
 
-describe('Port function', function() {
-  it('Port should return number', function() {
-    let service = new Plugin(serverlessMock, {});
-    assert(typeof service.port, 'number');
+function get(url) {
+  return new Promise(function(resolve, reject) {
+    http.get(url, function(incoming) {
+      resolve(incoming);
+    }).on("error", reject);
+  });
+}
+
+function getWithRetry(url, retryCount, previousError) {
+  retryCount = retryCount || 0;
+  if (retryCount >= 3) {
+    return Promise.reject(new Error("Exceeded retry count for get of " + url + ": " + previousError.message));
+  }
+  return get(url)
+    .catch(function(error) {
+      return new Promise(function(resolve) { setTimeout(resolve, 10000); })
+        .then(function() {
+          return getWithRetry(url, retryCount + 1, error);
+        });
+    });
+}
+
+describe("Port function",function(){
+  let service;
+  before(function(){
+    this.timeout(60000);
+    service = new Plugin(serverlessMock, { stage: "test" });
+    return service.installHandler();
   });
 
-  it('Port value should be >= 0 and < 65536', function(done) {
-    let service = new Plugin(serverlessMock, {});
-    http.get(`http://localhost:${service.port}/shell/`, function(response) {
-      assert.equal(response.statusCode, 200);
-      done();
-    });
+  it("Port should return number",function(){
+    assert(typeof service.port, "number");
+  });
+
+  it("Port value should be >= 0 and < 65536",function() {
+    this.timeout(40000);
+    return service.startHandler()
+      .then(function() {
+        return new Promise(function(resolve) { setTimeout(resolve, 2000); });
+      })
+      .then(function() {
+        return getWithRetry(`http://localhost:${service.port}/shell/`);
+      })
+      .then(function(response){
+        assert.equal(response.statusCode, 200);
+      });
+  });
+
+  after(function(){
+    return service.endHandler();
   });
 });
 
