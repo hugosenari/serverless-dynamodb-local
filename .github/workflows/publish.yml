@@ -36,11 +36,7 @@ jobs:
       - run: git config --global push.default current
       - run: git checkout sweeded
       - run: git branch --set-upstream-to origin/sweeded sweeded
+      - run: npm install .
       - run: npm run release -- minor -V --ci
       - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: sweeded
       - run: npm publish
