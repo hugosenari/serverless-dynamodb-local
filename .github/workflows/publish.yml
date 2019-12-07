@@ -29,7 +29,8 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@hugosenari"
       - run: npm ci
-      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ~/.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
+      - run: echo $GITHUB_REGISTRY_TOKEN
       - run: npm publish
 
 
