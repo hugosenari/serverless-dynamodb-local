@@ -3,8 +3,7 @@
     "publish": false
   },
   "git":{
-    "pushRepo": "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git",
-    "pushArgs": "$GITHUB_REF"
+    "pushRepo": "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
   },
   "github": {
     "release": true
