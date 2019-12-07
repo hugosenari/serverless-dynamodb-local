@@ -1,0 +1,45 @@
+name: Build, test and Publish
+on:
+  push:
+    branches:
+      - sweeded
+
+jobs:
+  build:
+    env:
+      GITHUB_REGISTRY_TOKEN: ${{ secrets.GH_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_REGISTRY_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@hugosenari'
+      - run: npm ci
+      - uses: actions/checkout@master
+      - run: git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+      - run: git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+      - run: git checkout sweeded
+      - run: npm install .
+      - run: npm run release -- patch --ci --no-git.push
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          branch: sweeded
+      - run: echo "//npm.pkg.github.com/:_authToken=\${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
+      - run: npm publish

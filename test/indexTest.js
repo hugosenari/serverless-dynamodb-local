@@ -1,67 +1,74 @@
-"use strict";
+'use strict';
 //Define the modules required to mocha testing
-const assert = require("chai").assert;
-const expect = require("chai").expect;
-const aws = require("aws-sdk");
-const seeder = require("../src/seeder.js");
-const Plugin = require("../index.js");
+const assert = require('chai').assert;
+const http = require('http');
+const expect = require('chai').expect;
+const should = require('should');
+const aws = require('aws-sdk');
+const seeder = require('../src/seeder.js');
+const Plugin = require('../index.js');
 
-const serverlessMock = require("./serverlessMock");
+const serverlessMock = require('./serverlessMock');
 
-describe("Port function", function () {
-  it("Port should return number", function () {
-    let service = new Plugin(serverlessMock, {});
-    assert(typeof service.port, "number");
+describe('Port function', function() {
+  let service;
+  before(function(){
+    this.timeout(60000);
+    service = new Plugin(serverlessMock, { stage: 'test' });
+    return service.installHandler();
   });
 
-  it("Port value should be >= 0 and < 65536", function () {
+  it('Port should return number', function() {
+    assert(typeof service.port, 'number');
+  });
+
+  it('Port value should be >= 0 and < 65536', function() {
     let service = new Plugin(serverlessMock, {});
     assert(service.port >= 0 && service.port < 65536);
   });
 });
 
-describe("Check the dynamodb function", function () {
-  it("Endpoint should listen to the port", function () {
+describe('Check the dynamodb function', function() {
+  it('Endpoint should listen to the port', function() {
     let server;
-    before(function () {
+    before(function() {
       server = dynamodbOptions.listen(port);
     });
-    after(function () {
+    after(function() {
       assert.ok;
     });
   });
 
-  it("Should be an object", function () {
+  it('Should be an object', function() {
     let dynamoOptions = Plugin.prototype.dynamodbOptions;
     let raw = new aws.DynamoDB(dynamoOptions);
-    raw.should.be.type("object");
+    raw.should.be.type('object');
   });
 
-  it("Should be an object", function () {
+  it('Should be an object', function() {
     let dynamoOptions = Plugin.prototype.dynamodbOptions;
     let doc = new aws.DynamoDB(dynamoOptions);
-    doc.should.be.type("object");
+    doc.should.be.type('object');
   });
 });
 
-describe("Start handler function", function () {
-  it("Should not  be null", function () {
+describe('Start handler function', function() {
+  it('Should not  be null', function() {
     let handler = Plugin.prototype.startHandler;
-    assert(handler = ! null);
+    assert((handler = !null));
   });
 });
 
-
-describe("createTable functon", function () {
-  it("Should check as a function", function () {
+describe('createTable functon', function() {
+  it('Should check as a function', function() {
     const tbl = Plugin.prototype.createTable;
-    assert.equal(typeof tbl, "function");
+    assert.equal(typeof tbl, 'function');
   });
 });
 
-describe("Check the Seeder file", function () {
-  it("Table name shoud be a string", function () {
+describe('Check the Seeder file', function() {
+  it('Table name shoud be a string', function() {
     let tblName = seeder.writeSeeds.name;
-    expect(tblName).to.be.a("string");
+    expect(tblName).to.be.a('string');
   });
 });

@@ -11,7 +11,7 @@ class ServerlessDynamodbLocal {
         this.serverless = serverless;
         this.service = serverless.service;
         this.serverlessLog = serverless.cli.log.bind(serverless.cli);
-        this.config = this.service.custom && this.service.custom.dynamodb || {};
+
         this.options = _.merge({
           localPath: serverless.config && path.join(serverless.config.servicePath, '.dynamodb')
           },
@@ -42,6 +42,9 @@ class ServerlessDynamodbLocal {
                             port: {
                                 shortcut: "p",
                                 usage: "The port number that DynamoDB will use to communicate with your application. If you do not specify this option, the default port is 8000"
+                            },
+                            host: {
+                                usage: "The host that DynamoDB will use to communicate with your application. If you do not specify this option, the default is localhost"
                             },
                             cors: {
                                 shortcut: "c",
@@ -138,6 +141,20 @@ class ServerlessDynamodbLocal {
         return host;
     }
 
+    get accessKeyId() {
+        const environment = process && process.env || {};
+        const accessKeyId = _.get(environment, "AWS_ACCESS_KEY_ID", "MOCK_ACCESS_KEY_ID");
+
+        return accessKeyId;
+    }
+
+    get secretAccessKey() {
+        const environment = process && process.env || {};
+        const secretAccessKey = _.get(environment, "AWS_SECRET_ACCESS_KEY", "MOCK_SECRET_ACCESS_KEY");
+
+        return secretAccessKey;
+    }
+
     /**
      * Get the stage
      *
@@ -153,9 +170,11 @@ class ServerlessDynamodbLocal {
      * @return {Boolean} if the handler can run for the provided stage
      */
     shouldExecute() {
-      if (this.config.stages && this.config.stages.includes(this.stage)) {
+      const config = this.service.custom && this.service.custom.dynamodb || {};
+      if (config.stages && config.stages.includes(this.stage)) {
         return true;
       }
+
       return false;
     }
 
@@ -175,8 +194,8 @@ class ServerlessDynamodbLocal {
             dynamoOptions = {
                 endpoint: `http://${this.host}:${this.port}`,
                 region: "localhost",
-                accessKeyId: "MOCK_ACCESS_KEY_ID",
-                secretAccessKey: "MOCK_SECRET_ACCESS_KEY",
+                accessKeyId: this.accessKeyId,
+                secretAccessKey: this.secretAccessKey,
                 convertEmptyValues: options && options.convertEmptyValues ? options.convertEmptyValues : false,
             };
         }
@@ -274,7 +293,9 @@ class ServerlessDynamodbLocal {
     }
 
     hasAdditionalStacksPlugin() {
-        return _.get(this.service, "plugins", []).includes("serverless-plugin-additional-stacks");
+        const pluginManager = this.serverless.pluginManager;
+        const modules = pluginManager.parsePluginsObject(this.service.plugins).modules;
+        return modules.includes("serverless-plugin-additional-stacks");
     }
 
     getTableDefinitionsFromStack(stack) {
@@ -342,7 +363,7 @@ class ServerlessDynamodbLocal {
             if (migration.Tags) {
                 delete migration.Tags;
             }
-            if (migration.BillingMode === "PAY_PER_REQUEST") {
+            if (migration.BillingMode === "PAY_PER_REQUEST" || migration.BillingMode === "PROVISIONED") {
                 delete migration.BillingMode;
 
                 const defaultProvisioning = {
