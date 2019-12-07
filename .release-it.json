@@ -3,10 +3,9 @@
     "publish": false
   },
   "git":{
-    "pushRepo": "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git",
-  "requireCleanWorkingDir": false
-},
+    "prequireCleanWorkingDir": false
+  },
   "github": {
-    "release": true
+    "release": false
   }
 }
