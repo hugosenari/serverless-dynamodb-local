@@ -11,8 +11,8 @@ jobs:
       GITHUB_REGISTRY_TOKEN:  ${{ secrets.GH_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@seeded
-      - uses: actions/setup-node@seeded
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: 12
       - run: npm ci
@@ -24,14 +24,14 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
       GITHUB_REGISTRY_TOKEN:  ${{ secrets.GH_TOKEN }}
     steps:
-      - uses: actions/checkout@seeded
-      - uses: actions/setup-node@seeded
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@hugosenari'
+          scope: '@${{ GITHUB_ACTOR }}'
       - run: npm ci
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" > ~/.npmrc
       - run: npm publish
 
 
