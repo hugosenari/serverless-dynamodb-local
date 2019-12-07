@@ -35,7 +35,7 @@ jobs:
       - run: git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
       - run: git checkout sweeded
       - run: npm install .
-      - run: npm run release -- minor -V --ci --no-git.push
+      - run: npm run release -- patch --ci --no-git.push
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
