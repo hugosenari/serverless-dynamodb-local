@@ -30,5 +30,7 @@ jobs:
           scope: '@hugosenari'
       - run: npm ci
       - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - run: npm run release -- minor --ci --no-git.requireCleanWorkingDir --no-git.requireUpstream
+      - run: git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+      - run: git branch -u origin/sweeded
+      - run: npm run release -- minor --ci --no-git.requireCleanWorkingDir
       # - run: npm publish
