@@ -2,12 +2,12 @@ name: Build, test and Publish
 on:
   push:
     branches:
-    - sweeded
+      - sweeded
 
 jobs:
   build:
     env:
-      GITHUB_REGISTRY_TOKEN:  ${{ secrets.GH_TOKEN }}
+      GITHUB_REGISTRY_TOKEN: ${{ secrets.GH_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -20,17 +20,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      GITHUB_REGISTRY_TOKEN:  ${{ secrets.GH_TOKEN }}
+      GITHUB_REGISTRY_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: "@hugosenari"
+          scope: '@hugosenari'
       - run: npm ci
       - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_REGISTRY_TOKEN}" >> ./.npmrc
-      - run: echo $GITHUB_REGISTRY_TOKEN
       - run: npm publish
-
-
